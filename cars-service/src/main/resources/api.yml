@@ -1,0 +1,258 @@
+openapi: 3.0.1
+info:
+  title: Car API
+  description: API for managing cars in the Protogen system.
+  version: 1.0.0
+paths:
+  /cars:
+    post:
+      summary: Add a new car
+      requestBody:
+        description: Car data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarDTO'
+      responses:
+        '201':
+          description: Car added successfully
+
+    get:
+      summary: Get all cars
+      responses:
+        '200':
+          description: List of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/id/{id}:
+    get:
+      summary: Get car by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Car details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarDTO'
+
+    delete:
+      summary: Remove car by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Car removed successfully
+
+    put:
+      summary: Update car by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Updated car data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarDTO'
+      responses:
+        '200':
+          description: Car updated successfully
+
+  /cars/make/{make}:
+    get:
+      summary: Get cars by make
+      parameters:
+        - name: make
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of cars with the specified make
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/year/{year}:
+    get:
+      summary: Get cars by year
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of cars from the specified year
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/color/{color}:
+    get:
+      summary: Get cars by color
+      parameters:
+        - name: color
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of cars with the specified color
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/average-mileage:
+    get:
+      summary: Get average mileage of cars
+      responses:
+        '200':
+          description: List of cars with their average mileage
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/cheapest:
+    get:
+      summary: Find the cheapest car
+      responses:
+        '200':
+          description: List of the cheapest cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/most-expensive:
+    get:
+      summary: Find the most expensive car
+      responses:
+        '200':
+          description: List of the most expensive cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/newest:
+    get:
+      summary: Find the newest car
+      responses:
+        '200':
+          description: List of the newest cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/oldest:
+    get:
+      summary: Find the oldest car
+      responses:
+        '200':
+          description: List of the oldest cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+  /cars/search:
+    get:
+      summary: Search cars by parameters
+      parameters:
+        - name: make
+          in: query
+          schema:
+            type: string
+        - name: model
+          in: query
+          schema:
+            type: string
+        - name: price
+          in: query
+          schema:
+            type: integer
+        - name: color
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of cars matching search criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+
+components:
+  schemas:
+    CarDTO:
+      type: object
+      properties:
+        id:
+          type: long
+          description: Unique identifier for the car
+        make:
+          type: string
+          description: Car make
+        model:
+          type: string
+          description: Car model
+        year:
+          type: integer
+          description: Year of manufacture
+        color:
+          type: string
+          description: Car color
+        price:
+          type: integer
+          description: Price of the car
+        mileage:
+          type: integer
+          description: Mileage of the car

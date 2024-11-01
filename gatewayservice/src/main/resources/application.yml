@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://RESERVATION-SERVICE
+          predicates:
+            - Path=/reservations/**
+          filters:
+            - StripPrefix=1
+
+        - id: product-service
+          uri: lb://CAR-SERVICE
+          predicates:
+            - Path=/cars/**
+          filters:
+            - StripPrefix=1
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+          filters:
+            - StripPrefix=1
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials RETAIN_UNIQUE
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:4200
+            allowedHeaders: "*"
+            allowedMethods: "*"
