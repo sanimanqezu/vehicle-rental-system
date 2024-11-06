@@ -38,7 +38,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: long
       responses:
         '200':
           description: Car details
@@ -54,7 +54,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: long
       responses:
         '200':
           description: Car removed successfully
@@ -66,7 +66,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: long
       requestBody:
         description: Updated car data
         required: true
@@ -250,9 +250,28 @@ components:
         color:
           type: string
           description: Car color
-        price:
-          type: integer
-          description: Price of the car
+        engine:
+          type: string
+          description: Type of engine in the car
+        transmission:
+          type: string
+          description: Type of transmission in the car
+        fuelType:
+          type: string
+          description: Type of fuel used by the car
         mileage:
           type: integer
           description: Mileage of the car
+        vin:
+          type: string
+          description: Vehicle Identification Number (VIN)
+        price:
+          type: integer
+          description: Price of the car
+        ownerId:
+          type: integer
+          description: Unique identifier of the car owner
+        features:
+          type: string
+          description: Additional features of the car
+

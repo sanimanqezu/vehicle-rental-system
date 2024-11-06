@@ -1,6 +1,7 @@
 package za.co.protogen.core.impl;
 
 import za.co.protogen.core.ReservationService;
+import za.co.protogen.persistance.Reservation;
 import za.co.protogen.domain.ReservationDTO;
 import za.co.protogen.adapter.ReservationMapper;
 import za.co.protogen.persistance.repository.ReservationRepository;
@@ -24,10 +25,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void addReservation(ReservationDTO reservationDTO) {
-        Long id = reservationDTO.getId();
-        if (id != null) {
-            log.error("Enter valid Id");
-        }
         reservationRepository.save(ReservationMapper.RESERVATION_MAPPER.reservationDTOToReservation(reservationDTO));
 
     }
@@ -36,14 +33,20 @@ public class ReservationServiceImpl implements ReservationService {
     public void removeReservation(Long id) {
         boolean reservation = reservationRepository.existsById(id);
         if (!reservation ) {
-            log.error("Enter Reservation Id");
+            throw new RuntimeException("Reservation not found");
         }
         reservationRepository.delete(ReservationMapper.RESERVATION_MAPPER.reservationDTOToReservation(getReservationById(id)));
     }
 
     @Override
     public ReservationDTO getReservationById(Long id) {
-        return ReservationMapper.RESERVATION_MAPPER.reservationToReservationDTO(reservationRepository.findById(id).get());
+        Optional<Reservation> reservationOptional = reservationRepository.findById(id);
+
+        if (reservationOptional.isPresent()){
+            return ReservationMapper.RESERVATION_MAPPER.reservationToReservationDTO(reservationOptional.get()); 
+        }
+
+        throw new RuntimeException("Reservation not found");
     }
 
     @Override
