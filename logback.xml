@@ -1,0 +1,66 @@
+<configuration>
+
+    <property name="LOG_DIR" value="./logs"/>
+    <property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} - %msg%n"/>
+    <property name="DEFAULT_LOG_LEVEL" value="INFO"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="USER_SERVICE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/user-service.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/user-service-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CAR_SERVICE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/car-service.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/car-service-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="RESERVATION_SERVICE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/reservation-service.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/reservation-service-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="za.co.protogen.user-service" level="DEBUG" additivity="false">
+        <appender-ref ref="USER_SERVICE_FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <logger name="za.co.protogen.car-service" level="INFO" additivity="false">
+        <appender-ref ref="CAR_SERVICE_FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <logger name="za.co.protogen.reservation-service" level="WARN" additivity="false">
+        <appender-ref ref="RESERVATION_SERVICE_FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="${DEFAULT_LOG_LEVEL}">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
