@@ -12,6 +12,10 @@
         <module>cars-service</module>
         <module>reservations-service</module>
         <module>users-service</module>
+        <module>configserver</module>
+        <module>eurekaserver</module>
+        <module>gatewayservice</module>
+        <module>infrastructure/oauth/AuthorizationServerConfig</module>
     </modules>
     <dependencies>
         <dependency>
@@ -19,6 +23,11 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>3.2.3</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.1.14</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -37,7 +46,6 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.5</version>
         </dependency>
-
     </dependencies>
 
     <properties>

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/reservations")
+@RequestMapping("rest/auth/reservations")
 public class ReservationsApiController {
 
     private final ReservationService reservationService;

@@ -34,7 +34,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ReservationDTO'
 
-  /reservations/id/{id}:
+  /reservations/id:
     get:
       summary: Get reservation by ID
       parameters:
@@ -42,7 +42,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: long
       responses:
         '200':
           description: Reservation details
@@ -58,7 +58,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: long
       responses:
         '200':
           description: Reservation removed successfully
@@ -74,7 +74,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: long
       requestBody:
         description: Updated reservation data
         required: true
@@ -97,7 +97,7 @@ paths:
         - name: id
           in: query
           schema:
-            type: integer
+            type: long
         - name: userId
           in: query
           schema:
@@ -140,7 +140,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: long
           description: Unique identifier for the reservation
         userId:
           type: integer

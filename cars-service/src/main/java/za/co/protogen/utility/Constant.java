@@ -9,6 +9,7 @@ public class Constant {
     static {
         // Add mock data
         CarDTO car1 = new CarDTO();
+        car1.setId(1L);
         car1.setMake("Toyota");
         car1.setModel("Corolla");
         car1.setYear(2021);
@@ -23,6 +24,7 @@ public class Constant {
         car1.setFeatures(String.valueOf(new ArrayList<>()));
         cars.add(car1);
         CarDTO car2 = new CarDTO();
+        car2.setId(1L);
         car2.setMake("Honda");
         car2.setModel("Civic");
         car2.setYear(2020);

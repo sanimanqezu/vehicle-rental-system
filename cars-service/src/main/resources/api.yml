@@ -30,7 +30,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarDTO'
 
-  /cars/id/{id}:
+  /cars/id:
     get:
       summary: Get car by ID
       parameters:
@@ -78,7 +78,7 @@ paths:
         '200':
           description: Car updated successfully
 
-  /cars/make/{make}:
+  /cars/make:
     get:
       summary: Get cars by make
       parameters:
@@ -97,7 +97,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarDTO'
 
-  /cars/year/{year}:
+  /cars/year:
     get:
       summary: Get cars by year
       parameters:
@@ -116,7 +116,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarDTO'
 
-  /cars/color/{color}:
+  /cars/color:
     get:
       summary: Get cars by color
       parameters:
@@ -135,7 +135,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarDTO'
 
-  /cars/average-mileage:
+  /cars/averageMileage:
     get:
       summary: Get average mileage of cars
       responses:
@@ -161,7 +161,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarDTO'
 
-  /cars/most-expensive:
+  /cars/mostExpensive:
     get:
       summary: Find the most expensive car
       responses:

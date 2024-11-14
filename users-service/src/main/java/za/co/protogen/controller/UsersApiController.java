@@ -16,7 +16,7 @@ import za.co.protogen.core.impl.UserServiceImpl;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value = "/users")
+@RequestMapping("rest/auth/users")
 public class UsersApiController {
 
     private final Logger logger = LoggerFactory.getLogger(UsersApiController.class);

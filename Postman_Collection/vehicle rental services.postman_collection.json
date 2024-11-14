@@ -1,0 +1,817 @@
+{
+	"info": {
+		"_postman_id": "13aa2a12-385c-4701-a034-f3880d079c55",
+		"name": "vehicle rental services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32904658"
+	},
+	"item": [
+		{
+			"name": "Cars Api",
+			"item": [
+				{
+					"name": "addCar",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "removeCar",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getCarById",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCars",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getCarsByMake",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getCarsByYear",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getCarsByColor",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "updateCar",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "calculateAverageMileage",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "findNewestCar",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "findOldestCar",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "searchCars",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users Api",
+			"item": [
+				{
+					"name": "addUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"firstName\": \"Mary\",\r\n    \"lastName\": \"Jane\",\r\n    \"dateOfBirth\": \"2020-02-01\",\r\n    \"rsaId\": \"0002015577089\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9101/rest/auth/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9101",
+							"path": [
+								"rest",
+								"auth",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "addUser",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 3,\r\n    \"firstName\": \"Mary\",\r\n    \"lastName\": \"Jane\",\r\n    \"dateOfBirth\": \"2020-02-01\",\r\n    \"rsaId\": \"0002015577089\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9101/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 13 Nov 2024 10:12:57 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"dateOfBirth\": \"1990-01-01\",\n        \"rsaId\": \"1234567890123\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Smith\",\n        \"dateOfBirth\": \"1985-06-15\",\n        \"rsaId\": \"9876543210987\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "removeUserById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9101/rest/auth/users/id/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9101",
+							"path": [
+								"rest",
+								"auth",
+								"users",
+								"id",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "removeUserById",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9101/users/id/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"users",
+										"id",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 13 Nov 2024 10:09:56 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"firstName\": \"Jane\",\n    \"lastName\": \"Smith\",\n    \"dateOfBirth\": \"1985-06-15\",\n    \"rsaId\": \"9876543210987\"\n}"
+						}
+					]
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9101/rest/auth/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9101",
+							"path": [
+								"rest",
+								"auth",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getAllUsers",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9101/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 13 Nov 2024 10:15:33 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"dateOfBirth\": \"1990-01-01\",\n        \"rsaId\": \"1234567890123\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Smith\",\n        \"dateOfBirth\": \"1985-06-15\",\n        \"rsaId\": \"9876543210987\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9101/rest/auth/users/id/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9101",
+							"path": [
+								"rest",
+								"auth",
+								"users",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getUserById",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9101/users/id/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"users",
+										"id",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 13 Nov 2024 10:16:39 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"firstName\": \"Jane\",\n    \"lastName\": \"Smith\",\n    \"dateOfBirth\": \"1985-06-15\",\n    \"rsaId\": \"9876543210987\"\n}"
+						},
+						{
+							"name": "getUserById",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9101/users/id/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"users",
+										"id",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 13 Nov 2024 10:17:22 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"rsaId\": \"1234567890123\"\n}"
+						}
+					]
+				},
+				{
+					"name": "updateUserById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Done\",\r\n    \"dateOfBirth\": \"1990-01-01\",\r\n    \"rsaId\": \"1234567890123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9101/rest/auth/users/id/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9101",
+							"path": [
+								"rest",
+								"auth",
+								"users",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "updateUserById",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Done\",\r\n    \"dateOfBirth\": \"1990-01-01\",\r\n    \"rsaId\": \"1234567890123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9101/users/id/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"users",
+										"id",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 13 Nov 2024 10:20:47 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "searchUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9101/rest/auth/users/search?firstName=John&id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9101",
+							"path": [
+								"rest",
+								"auth",
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "John"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "searchUsers",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9101/users/search?firstName=John&id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"users",
+										"search"
+									],
+									"query": [
+										{
+											"key": "firstName",
+											"value": "John"
+										},
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 13 Nov 2024 10:06:44 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"dateOfBirth\": \"1990-01-01\",\n        \"rsaId\": \"1234567890123\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"dateOfBirth\": \"1990-01-01\",\n        \"rsaId\": \"1234567890123\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Reservations Api",
+			"item": [
+				{
+					"name": "addReservation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/rest/auth/reservations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"rest",
+								"auth",
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeReservation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9103/rest/auth/reservations?id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"rest",
+								"auth",
+								"reservations"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getReservationById",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getAllReservations",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/rest/auth/reservations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"rest",
+								"auth",
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateReservation",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "searchReservations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/rest/auth/reservations?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"rest",
+								"auth",
+								"reservations"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "searchReservations",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/rest/auth/reservations?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"rest",
+										"auth",
+										"reservations"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 08:20:23 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"userId\": 1,\n        \"carId\": 1,\n        \"fromDate\": \"2023-06-10\",\n        \"toDate\": \"2023-06-15\",\n        \"pickUpLocation\": \"New York\",\n        \"dropOffLocation\": \"Los Angeles\"\n    },\n    {\n        \"id\": 2,\n        \"userId\": 2,\n        \"carId\": 2,\n        \"fromDate\": \"2023-06-12\",\n        \"toDate\": \"2023-06-18\",\n        \"pickUpLocation\": \"London\",\n        \"dropOffLocation\": \"Paris\"\n    }\n]"
+						}
+					]
+				}
+			]
+		}
+	]
+}
