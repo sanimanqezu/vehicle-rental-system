@@ -14,7 +14,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     List<Car> findByModel(String model);
 
-    List<Car> findByYear(int carYear);
+    List<Car> findByYear(int year);
 
     List<Car> findByColor(String color);
 
