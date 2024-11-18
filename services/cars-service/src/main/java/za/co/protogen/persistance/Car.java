@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Cars")
+@Table(name = "cars")
 public class Car {
 
     @Id
@@ -16,7 +16,7 @@ public class Car {
     private String make;
     @Column(name = "model")
     private String model;
-    @Column(name = "year")
+    @Column(name = "carYear")
     private int year;
     @Column(name = "color")
     private String color;
