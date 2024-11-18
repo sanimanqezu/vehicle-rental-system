@@ -1,6 +1,5 @@
 package za.co.protogen.core.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.protogen.core.CarsService;
 import za.co.protogen.domain.CarDTO;
