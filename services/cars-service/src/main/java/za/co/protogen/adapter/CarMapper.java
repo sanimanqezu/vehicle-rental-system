@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import java.util.List;
 import org.mapstruct.factory.Mappers;
-import za.co.protogen.domain.CarDTO;
+import za.co.protogen.carsService.models.CarDTO;
 import za.co.protogen.persistance.Car;
 
 

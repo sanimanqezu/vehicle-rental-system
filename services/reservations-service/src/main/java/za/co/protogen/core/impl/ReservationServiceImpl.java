@@ -2,8 +2,6 @@ package za.co.protogen.core.impl;
 
 import za.co.protogen.core.ReservationService;
 import za.co.protogen.persistance.Reservation;
-import za.co.protogen.domain.ReservationDTO;
-import za.co.protogen.adapter.ReservationMapper;
 import za.co.protogen.persistance.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +23,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void addReservation(ReservationDTO reservationDTO) {
-        reservationRepository.save(ReservationMapper.RESERVATION_MAPPER.reservationDTOToReservation(reservationDTO));
+    public void addReservation(Reservation reservation) {
+        reservationRepository.save(reservation);
 
     }
 
@@ -36,29 +34,27 @@ public class ReservationServiceImpl implements ReservationService {
         if (!reservation ) {
             throw new RuntimeException("Reservation not found");
         }
-        reservationRepository.delete(ReservationMapper.RESERVATION_MAPPER.reservationDTOToReservation(getReservationById(id)));
+        reservationRepository.delete((getReservationById(id)));
     }
 
     @Override
-    public ReservationDTO getReservationById(Long id) {
+    public Reservation getReservationById(Long id) {
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
-
         if (reservationOptional.isPresent()){
-            return ReservationMapper.RESERVATION_MAPPER.reservationToReservationDTO(reservationOptional.get()); 
+            return reservationOptional.get();
         }
-
         throw new RuntimeException("Reservation not found");
     }
 
     @Override
-    public List<ReservationDTO> getAllReservations() {
-        return ReservationMapper.RESERVATION_MAPPER.reservationsToReservationDTOs(reservationRepository.findAll());
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
     }
 
     @Override
-    public void updateReservation(ReservationDTO updatedReservation) {
-        ReservationDTO existingReservation = getReservationById(updatedReservation.getId());
-        if (existingReservation != null && updatedReservation != null) {
+    public void updateReservation(Long id, Reservation updatedReservation) {
+        Reservation existingReservation = getReservationById(updatedReservation.getId());
+        if (existingReservation != null) {
             if (existingReservation.getUserId() != null) {
                 existingReservation.setUserId(updatedReservation.getUserId());
             }
@@ -77,33 +73,33 @@ public class ReservationServiceImpl implements ReservationService {
             if (existingReservation.getDropOffLocation() != null && !updatedReservation.getDropOffLocation().isEmpty()) {
                 existingReservation.setDropOffLocation(updatedReservation.getDropOffLocation());
             }
-            reservationRepository.save(ReservationMapper.RESERVATION_MAPPER.reservationDTOToReservation(updatedReservation));
+            reservationRepository.save(updatedReservation);
         }
     }
 
     @Override
-    public List<ReservationDTO> searchReservations(Long id, Long userId, Long carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
-        List<ReservationDTO> reservations = new ArrayList<>();
+    public List<Reservation> searchReservations(Long id, Long userId, Long carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
+        List<Reservation> reservations = new ArrayList<>();
         if (id != null) {
-            reservations.add(ReservationMapper.RESERVATION_MAPPER.reservationToReservationDTO(reservationRepository.findById(id).get()));
+            reservations.add(reservationRepository.findById(id).get());
         }
         if (userId != null) {
-            reservations.add(ReservationMapper.RESERVATION_MAPPER.reservationToReservationDTO(reservationRepository.findByUserId(userId)));
+            reservations.add(reservationRepository.findByUserId(userId));
         }
         if (carId != null) {
-            reservations.add(ReservationMapper.RESERVATION_MAPPER.reservationToReservationDTO(reservationRepository.findByCarId(carId)));
+            reservations.add(reservationRepository.findByCarId(carId));
         }
         if (fromDate != null) {
-            reservations.addAll(ReservationMapper.RESERVATION_MAPPER.reservationsToReservationDTOs(reservationRepository.findByFromDate(fromDate)));
+            reservations.addAll(reservationRepository.findByFromDate(fromDate));
         }
         if (toDate != null) {
-            reservations.addAll(ReservationMapper.RESERVATION_MAPPER.reservationsToReservationDTOs(reservationRepository.findByToDate(toDate)));
+            reservations.addAll(reservationRepository.findByToDate(toDate));
         }
         if (pickUpLocation != null && !pickUpLocation.isEmpty()) {
-            reservations.addAll(ReservationMapper.RESERVATION_MAPPER.reservationsToReservationDTOs(reservationRepository.findByPickUpLocation(pickUpLocation)));
+            reservations.addAll(reservationRepository.findByPickUpLocation(pickUpLocation));
         }
         if (dropOffLocation != null && !dropOffLocation.isEmpty()) {
-            reservations.addAll(ReservationMapper.RESERVATION_MAPPER.reservationsToReservationDTOs(reservationRepository.findByDropOffLocation(dropOffLocation)));
+            reservations.addAll(reservationRepository.findByDropOffLocation(dropOffLocation));
         }
         return reservations;
     }

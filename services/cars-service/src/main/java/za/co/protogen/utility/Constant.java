@@ -1,6 +1,6 @@
 package za.co.protogen.utility;
 
-import za.co.protogen.domain.CarDTO;
+import za.co.protogen.carsService.models.CarDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,6 @@ public class Constant {
     static {
         // Add mock data
         CarDTO car1 = new CarDTO();
-        car1.setId(1L);
         car1.setMake("Toyota");
         car1.setModel("Corolla");
         car1.setYear(2021);
@@ -21,10 +20,9 @@ public class Constant {
         car1.setVin("ABC123");
         car1.setPrice(25000);
         car1.setOwnerId(123);
-        car1.setFeatures(String.valueOf(new ArrayList<>()));
+        car1.setFeatures(new ArrayList<>());
         cars.add(car1);
         CarDTO car2 = new CarDTO();
-        car2.setId(1L);
         car2.setMake("Honda");
         car2.setModel("Civic");
         car2.setYear(2020);
@@ -36,7 +34,7 @@ public class Constant {
         car2.setVin("XYZ789");
         car2.setPrice(22000);
         car2.setOwnerId(456);
-        car2.setFeatures(String.valueOf(new ArrayList<>()));
+        car2.setFeatures(new ArrayList<>());
         cars.add(car2);
         // Add more cars as needed
     }

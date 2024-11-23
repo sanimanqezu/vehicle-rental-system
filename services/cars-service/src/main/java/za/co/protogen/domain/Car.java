@@ -1,6 +1,6 @@
 package za.co.protogen.domain;
 
-public class CarDTO {
+public class Car {
 
     private Long id;
     private String make;
@@ -16,10 +16,10 @@ public class CarDTO {
     private int ownerId;
     private String features;
 
-    public CarDTO() {
+    public Car() {
     }
 
-    public CarDTO(Long id, String make, String model, int year, String color, String engine, String transmission,
+    public Car(Long id, String make, String model, int year, String color, String engine, String transmission,
                   String fuelType, int mileage, String vin, int price, int ownerId, String features){
         this.id = id;
         this.make = make;

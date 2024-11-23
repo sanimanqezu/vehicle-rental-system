@@ -1,21 +1,21 @@
 package za.co.protogen.core;
 
-import za.co.protogen.domain.ReservationDTO;
+import za.co.protogen.persistance.Reservation;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface ReservationService {
 
-    void addReservation(ReservationDTO reservationDTO);
+    void addReservation(Reservation reservation);
 
     void removeReservation(Long id);
 
-    ReservationDTO getReservationById(Long id);
+    Reservation getReservationById(Long id);
 
-    List<ReservationDTO> getAllReservations();
+    List<Reservation> getAllReservations();
 
-    void updateReservation(ReservationDTO updatedReservation);
+    void updateReservation(Long id ,Reservation updatedReservation);
 
-    List<ReservationDTO> searchReservations(Long id, Long userId, Long carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation);
+    List<Reservation> searchReservations(Long id, Long userId, Long carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation);
 }

@@ -1,12 +1,14 @@
 package za.co.protogen.utility;
 
 import za.co.protogen.domain.UserDTO;
+import za.co.protogen.usersService.models.UserDTO;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Constant {
-    public static List<UserDTO> users = new ArrayList<>();
+    public static List<za.co.protogen.usersService.models.UserDTO> users = new ArrayList<>();
     static {
         // Add mock data
         UserDTO user1 = new UserDTO();

@@ -1,18 +1,17 @@
 package za.co.protogen.core.impl;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import za.co.protogen.core.CarsService;
-import za.co.protogen.domain.CarDTO;
 import za.co.protogen.persistance.Car;
 import za.co.protogen.persistance.repository.CarRepository;
-import za.co.protogen.adapter.CarMapper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CarsServiceImpl implements CarsService {
@@ -24,49 +23,45 @@ public class CarsServiceImpl implements CarsService {
     }
 
     @Override
-    public void addCar(CarDTO carDTO) {
-        Car car = CarMapper.CAR_MAPPER.carDTOToCar(carDTO);
+    public void addCar(Car car) {
         carRepository.save(car);
     }
 
     @Override
-    public void removeCar(Long id) {
-        carRepository.delete(CarMapper.CAR_MAPPER.carDTOToCar(getCarById(id)));
+    public void removeCar(String vin) {
+        carRepository.delete(getCarById(vin));
     }
 
     @Override
-    public CarDTO getCarById(Long id) {
-        return CarMapper.CAR_MAPPER.carToCarDTO(carRepository.findById(id).get());
+    public Car getCarById(String vin) {
+        Optional<Car> car = carRepository.findById(Long.valueOf(vin));
+        return car.orElseGet(() -> (Car) ResponseEntity.status(HttpStatus.NOT_FOUND));
     }
 
     @Override
-    public List<CarDTO> getAllCars() {
-        List<CarDTO> cars = CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findAll());
-        return cars;
+    @PreAuthorize("hasAuthority('SCOPE_user_read')")
+    public List<Car> getAllCars() {
+        return carRepository.findAll();
     }
 
     @Override
-    public List<CarDTO> getCarsByMake(String make) {
-        List<CarDTO> cars = CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findByMake(make));
-        return cars;
+    public List<Car> getCarsByMake(String make) {
+        return carRepository.findByMake(make);
     }
 
     @Override
-    public List<CarDTO> getCarsByYear(int year) {
-        List<CarDTO> cars = CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findByYear(year));
-        return cars;
+    public List<Car> getCarsByYear(int year) {
+        return carRepository.findByYear(year);
     }
 
     @Override
-    public List<CarDTO> getCarsByColor(String color) {
-        List<CarDTO> cars = CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findByColor(color));
-        return cars;
+    public List<Car> getCarsByColor(String color) {return carRepository.findByColor(color);
     }
 
     @Override
-    public void updateCar(Long id, CarDTO updatedCar) {
+    public void updateCar(String vin, Car updatedCar) {
 
-        CarDTO existingCar = getCarById(id);
+        Car existingCar = getCarById(vin);
         if (existingCar != null && updatedCar != null) {
             if (updatedCar.getMake() != null && !updatedCar.getMake().isEmpty()) {
                 existingCar.setMake(updatedCar.getMake());
@@ -104,81 +99,49 @@ public class CarsServiceImpl implements CarsService {
             if (updatedCar.getFeatures() != null && !updatedCar.getFeatures().isEmpty()) {
                 existingCar.setFeatures(updatedCar.getFeatures());
             }
-            carRepository.save(CarMapper.CAR_MAPPER.carDTOToCar(existingCar));
         }
     }
 
     @Override
-    public List<CarDTO> calculateAverageMileage() {
-        List<Car> allCars = carRepository.findAll();
-        double averageMileage = allCars.stream()
-                .mapToDouble(Car::getMileage)
-                .average()
-                .orElse(0.0);
-
-        return allCars.stream()
-                .map(car -> {
-                    CarDTO carDto = CarMapper.CAR_MAPPER.carToCarDTO(car);
-                    carDto.setMileage((int) averageMileage);
-                    return carDto;
-                })
-                .collect(Collectors.toList());
+    public Double calculateAverageMileage() {
+        double totalMileage = carRepository.findAll().stream().mapToDouble(Car::getMileage).sum();
+        return totalMileage / carRepository.findAll().size();
     }
 
     @Override
-    public List<CarDTO> findCheapestCar() {
-        List<Car> cars = carRepository.findAll();
-        Car cheapestCar = cars.stream().min(Comparator.comparingDouble(Car::getPrice)).orElse(null);
-
-        return cheapestCar != null
-                ? List.of(CarMapper.CAR_MAPPER.carToCarDTO(cheapestCar))
-                : List.of();
+    public Car findMostExpensiveCar() {
+        return carRepository.findAll().stream().max(Comparator.comparingDouble(Car::getPrice)).orElse(null);
     }
 
     @Override
-    public List<CarDTO> findMostExpensiveCar() {
-        List<Car> cars = carRepository.findAll();
-        Car mostExpensiveCar = cars.stream().max(Comparator.comparingDouble(Car::getPrice)).orElse(null);
-
-        return mostExpensiveCar != null
-                ? List.of(CarMapper.CAR_MAPPER.carToCarDTO(mostExpensiveCar))
-                : List.of();
+    public Car findCheapestCar() {
+        return carRepository.findAll().stream().min(Comparator.comparingDouble(Car::getPrice)).orElse(null);
     }
 
     @Override
-    public List<CarDTO> findNewestCar() {
-        List<Car> cars = carRepository.findAll();
-        Car newestCar = cars.stream().max(Comparator.comparingInt(Car::getYear)).orElse(null);
-
-        return newestCar != null
-                ? List.of(CarMapper.CAR_MAPPER.carToCarDTO(newestCar))
-                : List.of();
+    public Car findNewestCar() {
+        return carRepository.findAll().stream().max(Comparator.comparingInt(Car::getYear)).orElse(null);
     }
 
     @Override
-    public List<CarDTO> findOldestCar() {
-        List<Car> cars = carRepository.findAll();
-        Optional<Car> oldestCar = cars.stream()
-                .min(Comparator.comparingInt(Car::getYear));
-
-        return oldestCar.map(car -> List.of(CarMapper.CAR_MAPPER.carToCarDTO(car)))
-                .orElseGet(Collections::emptyList);
+    public Car findOldestCar() {
+        return carRepository.findAll().stream().min(Comparator.comparingInt(Car::getYear)).orElse(null);
     }
 
     @Override
-    public List<CarDTO> searchCars(String make, String model, int price, String color) {
-        List<CarDTO> cars = new ArrayList<>();
+    public List<Car> searchCars(String make, String model, int price, String color) {
+        List<Car> cars = new ArrayList<>();
         if (make != null && !make.isEmpty()) {
-            cars.addAll(CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findByMake(make)));
+            cars.addAll(carRepository.findByMake(make));
         }
         if (model != null && !model.isEmpty()) {
-            cars.addAll(CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findByModel(model)));
+            cars.addAll(carRepository.findByModel(model));
         }
         
-        cars.addAll(CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findByPrice(price)));
+        cars.addAll(carRepository.findByPrice(price));
 
         if (color != null && !color.isEmpty()) {
-            cars.addAll(CarMapper.CAR_MAPPER.carsToCarDTOs(carRepository.findByColor(color)));
+            cars.addAll(carRepository.findByColor(color));
         }
         return cars;
     }

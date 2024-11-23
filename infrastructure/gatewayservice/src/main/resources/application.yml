@@ -1,24 +1,44 @@
+server:
+  port: 7000
+
 spring:
+  application:
+    name: gateway-service
+  config:
+    import: optional:configserver:http://localhost:9001
   cloud:
+    config:
+      uri: http://localhost:9001
+      name: gateway-service
+      enabled: true
+
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
       routes:
+
         - id: reservation-service
-          uri: lb://RESERVATION-SERVICE
+          uri: lb://reservation-service
           predicates:
             - Path=/reservations/**
-          filters:
-            - StripPrefix=1
-
-        - id: car-service
-          uri: lb://CAR-SERVICE
-          predicates:
-            - Path=/cars/**
-          filters:
-            - StripPrefix=1
 
         - id: user-service
-          uri: lb://USER-SERVICE
+          uri: lb://user-service
           predicates:
             - Path=/users/**
-          filters:
-            - StripPrefix=1
+
+        - id: car-service
+          uri: lb://car-service
+          predicates:
+            - Path=/cars/**
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+

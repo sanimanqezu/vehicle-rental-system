@@ -1,16 +1,26 @@
 package za.co.protogen.controller;
 
+import org.springframework.http.HttpStatus;
+import za.co.protogen.reservationsService.api.ReservationsApi;
 import za.co.protogen.core.ReservationService;
-import za.co.protogen.domain.ReservationDTO;
+import za.co.protogen.adapter.ReservationMapper;
+import za.co.protogen.reservationsService.models.ReservationDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("rest/auth/reservations")
-public class ReservationsApiController {
+@RequestMapping("reservations")
+public class ReservationsApiController implements ReservationsApi {
+
+
+
+    private static final Logger logger = LoggerFactory.getLogger(ReservationsApiController.class);
 
     private final ReservationService reservationService;
     
@@ -19,35 +29,39 @@ public class ReservationsApiController {
     }
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity<String> addReservation(@RequestBody ReservationDTO reservationDTO) {
-        reservationService.addReservation(reservationDTO);
-        return ResponseEntity.ok("Reservation added successfully");
+    public ResponseEntity<Void> addReservation(@RequestBody ReservationDTO body) {
+        reservationService.addReservation(ReservationMapper.RESERVATION_MAPPER.reservationDTOToReservation(body));
+        logger.info("adding reservations");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/id/{id}", produces = "application/json")
-    public ResponseEntity<String> removeReservation(@PathVariable Long id) {
+    public ResponseEntity<Void> removeReservation(@PathVariable Long id) {
         reservationService.removeReservation(id);
-        return ResponseEntity.ok("Reservation removed successfully");
+        logger.info("Removing a reservation by Id: {}", id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/id/{id}", produces = "application/json")
     public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id) {
-        ReservationDTO reservation = reservationService.getReservationById(id);
+        logger.info("Retrieving a reservation by Id: {}", id);
+        ReservationDTO reservation = ReservationMapper.RESERVATION_MAPPER.reservationToReservationDTO(reservationService.getReservationById(id));
         return ResponseEntity.ok(reservation);
     }
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<ReservationDTO>> getAllReservations() {
-        List<ReservationDTO> reservations = reservationService.getAllReservations();
-        return ResponseEntity.ok(reservations);
+        logger.info("Retrieving all reservations");
+        List<ReservationDTO> reservationDTOS = ReservationMapper.RESERVATION_MAPPER.reservationsToReservationDTOs(reservationService.getAllReservations());
+        return ResponseEntity.ok(reservationDTOS);
     }
 
     @PutMapping(value = "/id/{id}", produces = "application/json")
-    public ResponseEntity<String> updateReservation(
-            @PathVariable Long id, @RequestBody ReservationDTO updatedReservation) {
-        updatedReservation.setId(id);
-        reservationService.updateReservation(updatedReservation);
-        return ResponseEntity.ok("Reservation updated successfully");
+    public ResponseEntity<Void> updateReservation(
+            @PathVariable BigDecimal id, @RequestBody ReservationDTO updatedReservation) {
+        logger.info("Updating user identified by id: {}, with user: {}", id, updatedReservation.toString());
+        reservationService.updateReservation(id.longValue() , ReservationMapper.RESERVATION_MAPPER.reservationDTOToReservation(updatedReservation));
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping(value = "/search", produces = "application/json")
@@ -59,10 +73,7 @@ public class ReservationsApiController {
             @RequestParam(required = false) LocalDate toDate,
             @RequestParam(required = false) String pickUpLocation,
             @RequestParam(required = false) String dropOffLocation) {
-        
-        List<ReservationDTO> reservations = reservationService.searchReservations(
-                id, userId, carId, fromDate, toDate, pickUpLocation, dropOffLocation);
-        
+        List<ReservationDTO> reservations = ReservationMapper.RESERVATION_MAPPER.reservationsToReservationDTOs(reservationService.searchReservations(id, userId, carId, fromDate, toDate, pickUpLocation, dropOffLocation));
         return ResponseEntity.ok(reservations);
     }
 }

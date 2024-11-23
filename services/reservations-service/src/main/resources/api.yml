@@ -1,32 +1,28 @@
 openapi: 3.0.1
 info:
-  title: Reservation API
+  title: Reservation API Documentation
   description: API for managing reservations in the Protogen system.
   version: 1.0.0
+
 paths:
   /reservations:
     post:
-      summary: Add a new reservation
+      operationId: addReservation
       requestBody:
-        description: Reservation data
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ReservationDTO'
       responses:
-        '200':
+        '201':
           description: Reservation added successfully
-          content:
-            application/json:
-              schema:
-                type: string
 
     get:
-      summary: Get all reservations
+      operationId: getAllReservations
       responses:
         '200':
-          description: List of reservations
+          description: Reservations returned successfully
           content:
             application/json:
               schema:
@@ -34,105 +30,128 @@ paths:
                 items:
                   $ref: '#/components/schemas/ReservationDTO'
 
-  /reservations/id:
+  /reservations/{id}:
     get:
-      summary: Get reservation by ID
+      summary: Return a reservation by id
+      operationId: getReservationById
       parameters:
         - name: id
           in: path
+          description: id of a reservation to be returned
           required: true
           schema:
-            type: long
+            type: number
       responses:
         '200':
-          description: Reservation details
+          description: Reservation returned successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReservationDTO'
+        '404':
+          description: Reservation not found
+
 
     delete:
-      summary: Remove reservation by ID
+      summary: Remove a Reservation by id
+      operationId: removeReservation
       parameters:
         - name: id
           in: path
+          description: id of a reservation to be removed
           required: true
           schema:
-            type: long
+            type: number
       responses:
-        '200':
+        '204':
           description: Reservation removed successfully
-          content:
-            application/json:
-              schema:
-                type: string
+        '404':
+          description: Reservation not found
 
     put:
-      summary: Update reservation by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: long
+      summary: update a reservation identified by id
+      operationId: updateReservation
       requestBody:
-        description: Updated reservation data
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ReservationDTO'
+      parameters:
+        - name: id
+          in: path
+          description: id of a reservation to be updated
+          required: true
+          schema:
+            type: number
       responses:
         '200':
           description: Reservation updated successfully
-          content:
-            application/json:
-              schema:
-                type: string
+        '404':
+          description: Reservation not found
 
-  /reservations/search:
+
+  /reservations/searchReservations:
     get:
-      summary: Search reservations by parameters
+      operationId: searchReservations
       parameters:
         - name: id
           in: query
+          description: Id of the reservation to be fetched
+          required: false
           schema:
-            type: long
+            type: number
         - name: userId
           in: query
+          description: user Id of a reservation to be searched
+          required: false
           schema:
-            type: integer
+            type: number
         - name: carId
           in: query
+          description: car Id of a reservation to be searched
+          required: false
           schema:
-            type: integer
+            type: string
         - name: fromDate
           in: query
+          description: from date of a reservation to be searched
+          required: false
           schema:
             type: string
             format: date
+            description: Reservation to from date
         - name: toDate
           in: query
+          description: to date of a reservation to be searched
+          required: false
           schema:
             type: string
             format: date
+            description: Reservation to Date
         - name: pickUpLocation
           in: query
+          description: pick up location of a reservation to be searched
+          required: false
           schema:
             type: string
         - name: dropOffLocation
           in: query
+          description: drop off location of a reservation to be searched
+          required: false
           schema:
             type: string
       responses:
         '200':
-          description: List of matching reservations
+          description: Reservations returned successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/ReservationDTO'
+        '404':
+          description: Reservation not found
 
 components:
   schemas:
@@ -140,25 +159,20 @@ components:
       type: object
       properties:
         id:
-          type: long
-          description: Unique identifier for the reservation
+          type: number
         userId:
-          type: integer
-          description: ID of the user who made the reservation
+          type: number
         carId:
-          type: integer
-          description: ID of the reserved car
+          type: string
         fromDate:
           type: string
           format: date
-          description: Start date of the reservation
+          description: Reservation from date
         toDate:
           type: string
           format: date
-          description: End date of the reservation
+          description: Reservation to date
         pickUpLocation:
           type: string
-          description: Pick-up location of the car
         dropOffLocation:
           type: string
-          description: Drop-off location of the car

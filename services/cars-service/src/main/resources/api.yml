@@ -1,14 +1,14 @@
 openapi: 3.0.1
 info:
-  title: Car API
+  title: Car API Documentation
   description: API for managing cars in the Protogen system.
   version: 1.0.0
+
 paths:
   /cars:
     post:
-      summary: Add a new car
+      operationId: addCar
       requestBody:
-        description: Car data
         required: true
         content:
           application/json:
@@ -19,10 +19,10 @@ paths:
           description: Car added successfully
 
     get:
-      summary: Get all cars
+      operationId: getAllCars
       responses:
         '200':
-          description: List of cars
+          description: Cars returned successfully
           content:
             application/json:
               schema:
@@ -30,248 +30,203 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarDTO'
 
-  /cars/id:
+  /cars/vin/{vin}:
     get:
-      summary: Get car by ID
+      summary: Return a car by vin
+      operationId: getCarById
       parameters:
-        - name: id
+        - name: vin
           in: path
+          description: vin of a car to be returned
           required: true
           schema:
-            type: long
+            type: string
       responses:
         '200':
-          description: Car details
+          description: Car returned successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CarDTO'
+        '404':
+          description: Car not found
+
 
     delete:
-      summary: Remove car by ID
+      summary: Remove a car by vin
+      operationId: removeCarById
       parameters:
-        - name: id
+        - name: vin
           in: path
+          description: vin of a car to be removed
           required: true
           schema:
-            type: long
+            type: string
       responses:
-        '200':
+        '204':
           description: Car removed successfully
+        '404':
+          description: Car not found
 
     put:
-      summary: Update car by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: long
+      summary: update a car identified by vin
+      operationId: updateCar
       requestBody:
-        description: Updated car data
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CarDTO'
-      responses:
-        '200':
-          description: Car updated successfully
-
-  /cars/make:
-    get:
-      summary: Get cars by make
       parameters:
-        - name: make
-          in: query
+        - name: vin
+          in: path
+          description: vin of a car to be updated
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: List of cars with the specified make
+          description: Car updated successfully
+        '404':
+          description: Car not found
+
+  /cars/make/{make}:
+    get:
+      summary: Return cars identified by make
+      operationId: getCarByMake
+      parameters:
+        - name: make
+          in: path
+          description: make of cars to be returned
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Car returned successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/CarDTO'
+        '404':
+          description: Car not found
 
-  /cars/year:
+  /cars/color/{color}:
     get:
-      summary: Get cars by year
+      summary: Return cars by  color
+      operationId: getCarByColor
+      parameters:
+        - name: color
+          in: path
+          description: color of cars to returned
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cars returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+        '404':
+          description: Car not found
+
+  /cars/year/{year}:
+    get:
+      summary: Return cars by year
+      operationId: getCarByYear
       parameters:
         - name: year
-          in: query
+          in: path
+          description: year of cars to returned
           required: true
           schema:
             type: integer
       responses:
         '200':
-          description: List of cars from the specified year
+          description: Operation successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/CarDTO'
+        '404':
+          description: Car not found
 
-  /cars/color:
+  /cars/searchCars:
     get:
-      summary: Get cars by color
-      parameters:
-        - name: color
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: List of cars with the specified color
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CarDTO'
-
-  /cars/averageMileage:
-    get:
-      summary: Get average mileage of cars
-      responses:
-        '200':
-          description: List of cars with their average mileage
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CarDTO'
-
-  /cars/cheapest:
-    get:
-      summary: Find the cheapest car
-      responses:
-        '200':
-          description: List of the cheapest cars
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CarDTO'
-
-  /cars/mostExpensive:
-    get:
-      summary: Find the most expensive car
-      responses:
-        '200':
-          description: List of the most expensive cars
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CarDTO'
-
-  /cars/newest:
-    get:
-      summary: Find the newest car
-      responses:
-        '200':
-          description: List of the newest cars
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CarDTO'
-
-  /cars/oldest:
-    get:
-      summary: Find the oldest car
-      responses:
-        '200':
-          description: List of the oldest cars
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CarDTO'
-
-  /cars/search:
-    get:
-      summary: Search cars by parameters
+      operationId: searchCars
       parameters:
         - name: make
           in: query
+          description: make of a car to be searched
+          required: false
           schema:
             type: string
         - name: model
           in: query
+          description: model of a car to be searched
+          required: false
+          schema:
+            type: string
+        - name: color
+          in: query
+          description: color of a car to be searched
+          required: false
           schema:
             type: string
         - name: price
           in: query
+          description: price of a car to be searched
+          required: false
           schema:
             type: integer
-        - name: color
-          in: query
-          schema:
-            type: string
       responses:
         '200':
-          description: List of cars matching search criteria
+          description: Cars returned successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/CarDTO'
+        '404':
+          description: Car not found
 
 components:
   schemas:
     CarDTO:
       type: object
       properties:
-        id:
-          type: long
-          description: Unique identifier for the car
-        make:
-          type: string
-          description: Car make
-        model:
-          type: string
-          description: Car model
-        year:
-          type: integer
-          description: Year of manufacture
-        color:
-          type: string
-          description: Car color
-        engine:
-          type: string
-          description: Type of engine in the car
-        transmission:
-          type: string
-          description: Type of transmission in the car
-        fuelType:
-          type: string
-          description: Type of fuel used by the car
-        mileage:
-          type: integer
-          description: Mileage of the car
         vin:
           type: string
-          description: Vehicle Identification Number (VIN)
+        make:
+          type: string
+        model:
+          type: string
+        year:
+          type: integer
+        color:
+          type: string
+        engine:
+          type: string
+        transmission:
+          type: string
+        fuelType:
+          type: string
+        mileage:
+          type: integer
         price:
           type: integer
-          description: Price of the car
         ownerId:
           type: integer
-          description: Unique identifier of the car owner
         features:
-          type: string
-          description: Additional features of the car
-
+          type: array
+          items:
+            type : string

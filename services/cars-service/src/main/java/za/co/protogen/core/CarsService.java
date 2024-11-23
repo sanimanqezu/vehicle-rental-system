@@ -1,36 +1,36 @@
 package za.co.protogen.core;
-import za.co.protogen.domain.CarDTO;
+import za.co.protogen.persistance.Car;
 
 import java.util.List;
 
 public interface CarsService {
 
-    void addCar(CarDTO car);
+    void addCar(Car car);
 
-    void removeCar(Long id);
+    void removeCar(String vin);
 
-    CarDTO getCarById(Long id);
+    Car getCarById(String vin);
 
-    List<CarDTO> getAllCars();
+    List<Car> getAllCars();
 
-    List<CarDTO> getCarsByMake(String make);
+    List<Car> getCarsByMake(String make);
 
-    List<CarDTO> getCarsByYear(int year);
+    List<Car> getCarsByYear(int year);
 
-    List<CarDTO> getCarsByColor(String color);
+    List<Car> getCarsByColor(String color);
 
-    void updateCar(Long id, CarDTO updatedCar);
+    void updateCar(String vin, Car updatedCar);
 
-    List<CarDTO> calculateAverageMileage();
+    Double calculateAverageMileage();
 
-    List<CarDTO> findCheapestCar();
+    Car findMostExpensiveCar();
 
-    List<CarDTO> findMostExpensiveCar();
+    Car findCheapestCar();
 
-    List<CarDTO> findNewestCar();
+    Car findNewestCar();
 
-    List<CarDTO> findOldestCar();
+    Car findOldestCar();
 
-    List<CarDTO> searchCars(String make, String model, int price, String color);
+    List<Car> searchCars(String make, String model, int price, String color);
 
 }
