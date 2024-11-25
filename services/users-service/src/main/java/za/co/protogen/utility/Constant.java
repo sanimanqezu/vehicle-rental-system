@@ -1,6 +1,5 @@
 package za.co.protogen.utility;
 
-import za.co.protogen.domain.UserDTO;
 import za.co.protogen.usersService.models.UserDTO;
 
 import java.time.LocalDate;

@@ -17,5 +17,5 @@ public interface ReservationService {
 
     void updateReservation(Long id ,Reservation updatedReservation);
 
-    List<Reservation> searchReservations(Long id, Long userId, Long carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation);
+    List<Reservation> searchReservations(Long id, Long userId, String carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation);
 }

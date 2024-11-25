@@ -78,7 +78,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> searchReservations(Long id, Long userId, Long carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
+    public List<Reservation> searchReservations(Long id, Long userId, String carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
         List<Reservation> reservations = new ArrayList<>();
         if (id != null) {
             reservations.add(reservationRepository.findById(id).get());

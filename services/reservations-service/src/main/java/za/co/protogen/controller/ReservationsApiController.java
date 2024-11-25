@@ -68,7 +68,7 @@ public class ReservationsApiController implements ReservationsApi {
     public ResponseEntity<List<ReservationDTO>> searchReservations(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) Long userId,
-            @RequestParam(required = false) Long carId,
+            @RequestParam(required = false) String carId,
             @RequestParam(required = false) LocalDate fromDate,
             @RequestParam(required = false) LocalDate toDate,
             @RequestParam(required = false) String pickUpLocation,

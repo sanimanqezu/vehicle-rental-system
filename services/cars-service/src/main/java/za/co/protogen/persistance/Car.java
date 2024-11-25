@@ -1,17 +1,20 @@
 package za.co.protogen.persistance;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
 public class Car {
 
     @Id
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "vin")
+    private String vin;
     @Column(name = "make")
     private String make;
     @Column(name = "model")
@@ -28,22 +31,20 @@ public class Car {
     private String fuelType;
     @Column(name = "mileage")
     private int mileage;
-    @Column(name = "vin")
-    private String vin;
     @Column(name = "price")
     private int price;
     @Column(name = "ownerId")
     private int ownerId;
+    @ElementCollection
     @Column(name = "features")
-    private String features;
+    private List<String> features;
 
     public Car() {
     }
 
     public Car(
-            Long id, String make, String model, int year, String color, String engine, String transmission,
-            String fuelType, int mileage, String vin, int price, int ownerId, String features) {
-        this.id = id;
+            String make, String model, int year, String color, String engine, String transmission,
+            String fuelType, int mileage, String vin, int price, int ownerId, List<String> features) {
         this.make = make;
         this.model = model;
         this.year = year;
@@ -56,14 +57,6 @@ public class Car {
         this.price = price;
         this.ownerId = ownerId;
         this.features = features;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getMake() {
@@ -154,11 +147,11 @@ public class Car {
         this.ownerId = ownerId;
     }
 
-    public String getFeatures() {
+    public List<String> getFeatures() {
         return features;
     }
 
-    public void setFeatures(String features) {
+    public void setFeatures(List<String> features) {
         this.features = features;
     }
 

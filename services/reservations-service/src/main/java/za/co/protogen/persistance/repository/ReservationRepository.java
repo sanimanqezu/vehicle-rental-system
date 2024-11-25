@@ -13,7 +13,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>{
 
     Reservation findByUserId(Long userId);
 
-    Reservation findByCarId(Long carId);
+    Reservation findByCarId(String carId);
 
     List<Reservation> findByFromDate(LocalDate fromDate);
 

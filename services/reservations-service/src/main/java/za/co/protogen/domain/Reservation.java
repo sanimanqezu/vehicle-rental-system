@@ -11,7 +11,7 @@ public class Reservation {
 
     private Long id;
     private Long userId;
-    private Long carId;
+    private String carId;
     private LocalDate fromDate;
     private LocalDate toDate;
     private String pickUpLocation;
@@ -20,7 +20,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Long id, Long userId, Long carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
+    public Reservation(Long id, Long userId, String carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
 
     }
 

@@ -40,7 +40,8 @@ paths:
           description: id of a reservation to be returned
           required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       responses:
         '200':
           description: Reservation returned successfully
@@ -61,7 +62,8 @@ paths:
           description: id of a reservation to be removed
           required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       responses:
         '204':
           description: Reservation removed successfully
@@ -83,7 +85,8 @@ paths:
           description: id of a reservation to be updated
           required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       responses:
         '200':
           description: Reservation updated successfully
@@ -100,13 +103,15 @@ paths:
           description: Id of the reservation to be fetched
           required: false
           schema:
-            type: number
+            type: integer
+            format: int64
         - name: userId
           in: query
           description: user Id of a reservation to be searched
           required: false
           schema:
-            type: number
+            type: integer
+            format: int64
         - name: carId
           in: query
           description: car Id of a reservation to be searched
@@ -159,9 +164,11 @@ components:
       type: object
       properties:
         id:
-          type: number
+          type: integer
+          format: int64
         userId:
-          type: number
+          type: integer
+          format: int64
         carId:
           type: string
         fromDate:

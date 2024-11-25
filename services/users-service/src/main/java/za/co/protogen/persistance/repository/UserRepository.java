@@ -6,6 +6,7 @@ import za.co.protogen.persistance.User;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -16,4 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByRsaId(String rsaId);
 
     List<User> findByDateOfBirth(LocalDate dateOfBirth);
+
+    Optional<User> findByUsername(String username);
 }
