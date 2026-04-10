@@ -1,12 +1,18 @@
 package za.co.protogen.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Reservation {
 
     private Long id;
@@ -16,25 +22,4 @@ public class Reservation {
     private LocalDate toDate;
     private String pickUpLocation;
     private String dropOffLocation;
-
-    public Reservation() {
-    }
-
-    public Reservation(Long id, Long userId, String carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
-
-    }
-
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", userId='" + userId + '\'' +
-                ", carId='" + carId + '\'' +
-                ", fromDate='" + fromDate + '\'' +
-                ", toDate='" + toDate + '\'' +
-                ", pickUpLocation='" + pickUpLocation + '\'' +
-                ", dropOffLocation='" + dropOffLocation + '\'' +
-                '}';
-
-    }
 }

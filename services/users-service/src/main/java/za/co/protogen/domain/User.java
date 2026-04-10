@@ -1,12 +1,18 @@
 package za.co.protogen.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class User {
 
     private Long id;
@@ -14,27 +20,4 @@ public class User {
     private String lastName;
     private LocalDate dateOfBirth;
     private String rsaId;
-
-    public User() {
-    }
-
-    public User(Long id, String firstName, String lastName, LocalDate dateOfBirth, String rsaId) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.rsaId = rsaId;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", rsaId='" + rsaId + '\'' +
-                '}';
-
-    }
 }

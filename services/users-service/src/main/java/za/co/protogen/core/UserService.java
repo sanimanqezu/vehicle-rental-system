@@ -1,7 +1,7 @@
 package za.co.protogen.core;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import za.co.protogen.persistance.User;
+import za.co.protogen.persistance.entity.User;
 
 import java.time.LocalDate;
 import java.util.List;

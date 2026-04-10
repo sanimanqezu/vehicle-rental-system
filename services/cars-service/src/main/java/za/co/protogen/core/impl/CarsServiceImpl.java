@@ -1,11 +1,9 @@
 package za.co.protogen.core.impl;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import za.co.protogen.core.CarsService;
-import za.co.protogen.persistance.Car;
+import za.co.protogen.persistance.entity.Car;
 import za.co.protogen.persistance.repository.CarRepository;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class CarsServiceImpl implements CarsService {
     @Override
     public Car getCarById(String vin) {
         Optional<Car> car = carRepository.findById(Long.valueOf(vin));
-        return car.orElseGet(() -> (Car) ResponseEntity.status(HttpStatus.NOT_FOUND));
+        return car.orElseThrow(() -> new RuntimeException("Car not found with VIN: " + vin));
     }
 
     @Override
@@ -129,7 +127,7 @@ public class CarsServiceImpl implements CarsService {
     }
 
     @Override
-    public List<Car> searchCars(String make, String model, int price, String color) {
+    public List<Car> searchCars(String make, String model, Integer price, String color) {
         List<Car> cars = new ArrayList<>();
         if (make != null && !make.isEmpty()) {
             cars.addAll(carRepository.findByMake(make));
@@ -137,9 +135,9 @@ public class CarsServiceImpl implements CarsService {
         if (model != null && !model.isEmpty()) {
             cars.addAll(carRepository.findByModel(model));
         }
-        
-        cars.addAll(carRepository.findByPrice(price));
-
+        if (price != null) {
+            cars.addAll(carRepository.findByPrice(price));
+        }
         if (color != null && !color.isEmpty()) {
             cars.addAll(carRepository.findByColor(color));
         }

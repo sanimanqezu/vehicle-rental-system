@@ -1,4 +1,4 @@
-package za.co.protogen.persistance;
+package za.co.protogen.persistance.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;

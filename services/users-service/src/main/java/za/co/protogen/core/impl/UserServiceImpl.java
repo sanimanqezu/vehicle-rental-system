@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Service;
 import za.co.protogen.core.UserService;
-import za.co.protogen.persistance.User;
+import za.co.protogen.persistance.entity.User;
 import za.co.protogen.persistance.repository.UserRepository;
 
 import java.time.LocalDate;

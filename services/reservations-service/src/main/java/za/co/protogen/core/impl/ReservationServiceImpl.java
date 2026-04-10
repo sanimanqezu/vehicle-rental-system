@@ -53,27 +53,27 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void updateReservation(Long id, Reservation updatedReservation) {
-        Reservation existingReservation = getReservationById(updatedReservation.getId());
+        Reservation existingReservation = getReservationById(id);
         if (existingReservation != null) {
-            if (existingReservation.getUserId() != null) {
+            if (updatedReservation.getUserId() != null) {
                 existingReservation.setUserId(updatedReservation.getUserId());
             }
-            if (existingReservation.getCarId() != null) {
+            if (updatedReservation.getCarId() != null) {
                 existingReservation.setCarId(updatedReservation.getCarId());
             }
-            if (existingReservation.getFromDate() != null) {
+            if (updatedReservation.getFromDate() != null) {
                 existingReservation.setFromDate(updatedReservation.getFromDate());
             }
-            if (existingReservation.getToDate() != null) {
+            if (updatedReservation.getToDate() != null) {
                 existingReservation.setToDate(updatedReservation.getToDate());
             }
-            if (existingReservation.getPickUpLocation() != null && !updatedReservation.getPickUpLocation().isEmpty()) {
+            if (updatedReservation.getPickUpLocation() != null && !updatedReservation.getPickUpLocation().isEmpty()) {
                 existingReservation.setPickUpLocation(updatedReservation.getPickUpLocation());
             }
-            if (existingReservation.getDropOffLocation() != null && !updatedReservation.getDropOffLocation().isEmpty()) {
+            if (updatedReservation.getDropOffLocation() != null && !updatedReservation.getDropOffLocation().isEmpty()) {
                 existingReservation.setDropOffLocation(updatedReservation.getDropOffLocation());
             }
-            reservationRepository.save(updatedReservation);
+            reservationRepository.save(existingReservation);
         }
     }
 
@@ -81,13 +81,13 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Reservation> searchReservations(Long id, Long userId, String carId, LocalDate fromDate, LocalDate toDate, String pickUpLocation, String dropOffLocation) {
         List<Reservation> reservations = new ArrayList<>();
         if (id != null) {
-            reservations.add(reservationRepository.findById(id).get());
+            reservationRepository.findById(id).ifPresent(reservations::add);
         }
         if (userId != null) {
-            reservations.add(reservationRepository.findByUserId(userId));
+            reservations.addAll(reservationRepository.findByUserId(userId));
         }
         if (carId != null) {
-            reservations.add(reservationRepository.findByCarId(carId));
+            reservations.addAll(reservationRepository.findByCarId(carId));
         }
         if (fromDate != null) {
             reservations.addAll(reservationRepository.findByFromDate(fromDate));

@@ -2,7 +2,7 @@ package za.co.protogen.persistance.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import za.co.protogen.persistance.User;
+import za.co.protogen.persistance.entity.User;
 
 import java.time.LocalDate;
 import java.util.List;

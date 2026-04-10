@@ -1,5 +1,5 @@
 package za.co.protogen.core;
-import za.co.protogen.persistance.Car;
+import za.co.protogen.persistance.entity.Car;
 
 import java.util.List;
 
@@ -31,6 +31,6 @@ public interface CarsService {
 
     Car findOldestCar();
 
-    List<Car> searchCars(String make, String model, int price, String color);
+    List<Car> searchCars(String make, String model, Integer price, String color);
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import za.co.protogen.usersService.models.UserDTO;
-import za.co.protogen.persistance.User;
+import za.co.protogen.persistance.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

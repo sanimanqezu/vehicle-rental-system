@@ -52,7 +52,7 @@ public class CarsApiController implements CarsApi {
     @GetMapping(value = "/make/{make}", produces = "application/json")
     public ResponseEntity<List<CarDTO>> getCarsByMake(@PathVariable String make) {
         logger.info("Retrieving cars with make: {}", make);
-        return ResponseEntity.ok(CarMapper.CAR_MAPPER.carsToCarDTOs(carsService.getCarsByColor(make)));
+        return ResponseEntity.ok(CarMapper.CAR_MAPPER.carsToCarDTOs(carsService.getCarsByMake(make)));
     }
 
     @GetMapping(value = "/year/{year}", produces = "application/json")
