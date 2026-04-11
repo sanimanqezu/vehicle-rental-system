@@ -40,10 +40,10 @@ export default function DashboardPage() {
   const recent = [...reservations].reverse().slice(0, 6);
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div>
       <Header title="Overview" subtitle="Vehicle Rental System" />
 
-      <div className="flex-1 overflow-y-auto" style={{ padding: "28px 32px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ padding: "28px 32px", display: "flex", flexDirection: "column", gap: 24 }}>
 
         {/* ── Stats ──────────────────────────────── */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>

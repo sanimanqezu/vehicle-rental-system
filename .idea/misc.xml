@@ -7,8 +7,16 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/infrastructure/configserver/pom.xml" />
         <option value="$PROJECT_DIR$/infrastructure/gatewayservice/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/infrastructure/AuthorizationServerConfig/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/infrastructure/configserver/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/infrastructure/eurekaserver/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/infrastructure/gatewayservice/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/cars-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/reservations-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/users-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_20" default="true" project-jdk-name="23" project-jdk-type="JavaSDK" />
 </project>

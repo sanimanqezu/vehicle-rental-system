@@ -9,6 +9,7 @@ import { CarsTable } from "@/components/cars/CarsTable";
 import { CarModal } from "@/components/cars/CarModal";
 import { Button } from "@/components/ui/Button";
 import { useCarStore } from "@/store/useCarStore";
+import { useCarsUIStore } from "@/store/useCarsUIStore";
 import { Car } from "@/types";
 import { CarFormValues } from "@/schemas";
 
@@ -104,19 +105,16 @@ function PillBtn({ active, onClick, children }: { active: boolean; onClick: () =
 
 export default function CarsPage() {
   const { cars, isLoading, fetchCars, addCar, updateCar, deleteCar } = useCarStore();
+  const { filters, setFilters, panelOpen, setPanelOpen, sortKey, setSortKey, sortDir, setSortDir, clearFilters } = useCarsUIStore();
   const [modalMode, setModalMode]         = useState<ModalMode>(null);
   const [selectedCar, setSelectedCar]     = useState<Car | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const [filters, setFilters]             = useState<Filters>(EMPTY);
-  const [panelOpen, setPanelOpen]         = useState(false);
-  const [sortKey, setSortKey]             = useState<SortKey>("make");
-  const [sortDir, setSortDir]             = useState<SortDir>("asc");
 
   useEffect(() => { fetchCars(); }, [fetchCars]);
 
   const setF   = (k: keyof Filters, v: string) => setFilters(f => ({ ...f, [k]: v }));
   const clearF = (k: keyof Filters) => setFilters(f => ({ ...f, [k]: EMPTY[k] }));
-  const clearAll = () => setFilters(EMPTY);
+  const clearAll = () => clearFilters();
 
   const toggleMake     = (m: string) => setFilters(f => ({ ...f, makes:     f.makes.includes(m)     ? f.makes.filter(x => x !== m)     : [...f.makes, m]     }));
   const toggleFuelType = (ft: string)=> setFilters(f => ({ ...f, fuelTypes: f.fuelTypes.includes(ft) ? f.fuelTypes.filter(x => x !== ft) : [...f.fuelTypes, ft] }));
@@ -204,10 +202,10 @@ export default function CarsPage() {
   const pricePresetActive = (p: typeof PRICE_PRESETS[0]) => filters.priceMin === p.min && filters.priceMax === p.max;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}>
+    <div>
       <Header title="Fleet" subtitle={`${cars.length} vehicles registered`} />
 
-      <div style={{ flex: 1, overflowY: "auto", padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
 
         {/* ── Toolbar ── */}
         <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}

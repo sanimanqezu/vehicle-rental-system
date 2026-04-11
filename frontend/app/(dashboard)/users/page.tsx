@@ -11,6 +11,7 @@ import { Modal, ConfirmModal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useUserStore } from "@/store/useUserStore";
 import { useReservationStore } from "@/store/useReservationStore";
+import { useUsersUIStore } from "@/store/useUsersUIStore";
 import { User } from "@/types";
 import { UserFormValues } from "@/schemas";
 
@@ -61,18 +62,15 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 export default function UsersPage() {
   const { users, isLoading, fetchUsers, addUser, updateUser, deleteUser } = useUserStore();
   const { reservations, fetchReservations } = useReservationStore();
+  const { filters, setFilters, panelOpen, setPanelOpen, sortKey, setSortKey, sortDir, setSortDir, clearFilters } = useUsersUIStore();
   const [modalMode, setModalMode]         = useState<ModalMode>(null);
   const [selectedUser, setSelectedUser]   = useState<User | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const [filters, setFilters]             = useState<Filters>(EMPTY);
-  const [panelOpen, setPanelOpen]         = useState(false);
-  const [sortKey, setSortKey]             = useState<SortKey>("firstName");
-  const [sortDir, setSortDir]             = useState<SortDir>("asc");
 
   useEffect(() => { fetchUsers(); fetchReservations(); }, [fetchUsers, fetchReservations]);
 
   const setF   = (k: keyof Filters, v: string) => setFilters(f => ({ ...f, [k]: v }));
-  const clearAll = () => setFilters(EMPTY);
+  const clearAll = () => clearFilters();
 
   const usersWithBookings = useMemo(() => new Set(reservations.map(r => r.userId)), [reservations]);
 
@@ -157,10 +155,10 @@ export default function UsersPage() {
   const withoutBookingsCount = users.length - withBookingsCount;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}>
+    <div>
       <Header title="Clients" subtitle={`${users.length} registered clients`} />
 
-      <div style={{ flex: 1, overflowY: "auto", padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
 
         {/* ── Toolbar ── */}
         <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
@@ -225,31 +223,6 @@ export default function UsersPage() {
                         </button>
                       );
                     })}
-                  </div>
-                </div>
-
-                {/* ── Age ── */}
-                <div style={{ padding: "18px 22px", borderBottom: "1px solid var(--color-border)" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-                    <CalendarDays size={11} style={{ color: "var(--color-text-tertiary)" }} />
-                    <SectionLabel>Age bracket</SectionLabel>
-                  </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
-                    {AGE_BRACKETS.map(b => {
-                      const cnt = users.filter(u => u.dateOfBirth && (() => { const a = getAge(u.dateOfBirth); return a >= Number(b.min) && (b.max === "" || a <= Number(b.max)); })()).length;
-                      return (
-                        <PillBtn key={b.label} active={filters.agePreset === b.label} onClick={() => applyAgeBracket(b)}>
-                          {b.label}
-                          <span style={{ fontSize: 10, opacity: 0.7 }}>{cnt}</span>
-                        </PillBtn>
-                      );
-                    })}
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 11.5, color: "var(--color-text-tertiary)", whiteSpace: "nowrap" }}>Custom:</span>
-                    <input value={filters.ageMin} onChange={e => { setF("ageMin", e.target.value); setF("agePreset", ""); }} type="number" min={18} max={120} placeholder="Min age" style={{ ...inputStyle, flex: 1 }} />
-                    <span style={{ color: "var(--color-text-tertiary)" }}>–</span>
-                    <input value={filters.ageMax} onChange={e => { setF("ageMax", e.target.value); setF("agePreset", ""); }} type="number" min={18} max={120} placeholder="Max age" style={{ ...inputStyle, flex: 1 }} />
                   </div>
                 </div>
 

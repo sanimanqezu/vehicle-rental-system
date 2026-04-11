@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { useReservationStore } from "@/store/useReservationStore";
 import { useCarStore } from "@/store/useCarStore";
 import { useUserStore } from "@/store/useUserStore";
+import { useReservationsUIStore } from "@/store/useReservationsUIStore";
 import { Reservation } from "@/types";
 import { ReservationFormValues } from "@/schemas";
 
@@ -82,19 +83,16 @@ export default function ReservationsPage() {
   const { cars, fetchCars }   = useCarStore();
   const { users, fetchUsers } = useUserStore();
 
+  const { filters, setFilters, panelOpen, setPanelOpen, sortKey, setSortKey, sortDir, setSortDir, clearFilters } = useReservationsUIStore();
   const [modalMode, setModalMode]         = useState<ModalMode>(null);
   const [selected, setSelected]           = useState<Reservation | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const [filters, setFilters]             = useState<Filters>(EMPTY);
-  const [panelOpen, setPanelOpen]         = useState(false);
-  const [sortKey, setSortKey]             = useState<SortKey>("fromDate");
-  const [sortDir, setSortDir]             = useState<SortDir>("desc");
   const [clientSearch, setClientSearch]   = useState("");
 
   useEffect(() => { fetchReservations(); fetchCars(); fetchUsers(); }, [fetchReservations, fetchCars, fetchUsers]);
 
   const setF   = (k: keyof Filters, v: string) => setFilters(f => ({ ...f, [k]: v }));
-  const clearAll = () => { setFilters(EMPTY); setClientSearch(""); };
+  const clearAll = () => { clearFilters(); setClientSearch(""); };
 
   const toggleMake = (m: string) => setFilters(f => ({ ...f, carMakes: f.carMakes.includes(m) ? f.carMakes.filter(x => x !== m) : [...f.carMakes, m] }));
 
@@ -175,10 +173,10 @@ export default function ReservationsPage() {
   const inputStyle = { height: 36, padding: "0 11px", background: "var(--color-surface-2)", border: "1px solid var(--color-border)", borderRadius: "var(--radius-sm)", color: "var(--color-text-primary)", fontFamily: "var(--font-body)", fontSize: 13, outline: "none" } as React.CSSProperties;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}>
+    <div>
       <Header title="Reservations" subtitle={`${reservations.length} total bookings`} />
 
-      <div style={{ flex: 1, overflowY: "auto", padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ padding: "28px 32px", display: "flex", flexDirection: "column", gap: 24 }}>
 
         {/* ── Status pills ── */}
         <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} style={{ display: "flex", gap: 8 }}>
@@ -256,49 +254,13 @@ export default function ReservationsPage() {
                       );
                     })}
                   </div>
-                  {/* Custom inputs */}
-                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                    <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: 10.5, color: "var(--color-text-tertiary)", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}>Pickup from</p>
-                      <input type="date" value={filters.dateFrom} onChange={e => setF("dateFrom", e.target.value)} style={{ ...inputStyle, width: "100%", colorScheme: "dark" }} />
-                    </div>
-                    <span style={{ color: "var(--color-text-tertiary)", marginTop: 18 }}>→</span>
-                    <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: 10.5, color: "var(--color-text-tertiary)", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}>Return by</p>
-                      <input type="date" value={filters.dateTo}   onChange={e => setF("dateTo",   e.target.value)} style={{ ...inputStyle, width: "100%", colorScheme: "dark" }} />
-                    </div>
-                  </div>
                 </div>
 
-                {/* ── Client + Vehicle ── */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: "1px solid var(--color-border)" }}>
-                  {/* Client list */}
-                  <div style={{ padding: "18px 22px", borderRight: "1px solid var(--color-border)" }}>
-                    <SectionLabel>Client {filters.userId && "✓"}</SectionLabel>
-                    <div style={{ position: "relative", marginBottom: 8 }}>
-                      <Search size={12} style={{ position: "absolute", left: 9, top: "50%", transform: "translateY(-50%)", color: "var(--color-text-tertiary)", pointerEvents: "none" }} />
-                      <input value={clientSearch} onChange={e => setClientSearch(e.target.value)} placeholder="Search client…" style={{ ...inputStyle, width: "100%", paddingLeft: 28 }} />
-                    </div>
-                    <div style={{ maxHeight: 140, overflowY: "auto", display: "flex", flexDirection: "column", gap: 2 }}>
-                      {filteredClientList.map(u => {
-                        const active = filters.userId === String(u.id);
-                        const cnt = reservations.filter(r => r.userId === u.id).length;
-                        return (
-                          <button key={u.id} onClick={() => setF("userId", active ? "" : String(u.id))} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 10px", borderRadius: "var(--radius-sm)", border: `1px solid ${active ? "var(--color-accent-border)" : "transparent"}`, background: active ? "var(--color-accent-muted)" : "transparent", cursor: "pointer", transition: "all 100ms", textAlign: "left" }}
-                            onMouseEnter={e => { if (!active) e.currentTarget.style.background = "var(--color-surface-2)"; }}
-                            onMouseLeave={e => { if (!active) e.currentTarget.style.background = "transparent"; }}>
-                            <span style={{ fontSize: 12.5, color: active ? "var(--color-accent-bright)" : "var(--color-text-primary)" }}>{u.firstName} {u.lastName}</span>
-                            <span style={{ fontSize: 10.5, color: active ? "var(--color-accent)" : "var(--color-text-tertiary)", fontFamily: "var(--font-mono)" }}>{cnt} trips</span>
-                          </button>
-                        );
-                      })}
-                      {filteredClientList.length === 0 && <p style={{ fontSize: 12, color: "var(--color-text-tertiary)", padding: "8px 10px" }}>No clients found</p>}
-                    </div>
-                  </div>
-
+                {/* ── Vehicle ── */}
+                <div style={{ padding: "18px 22px", borderBottom: "1px solid var(--color-border)" }}>
                   {/* Vehicle make */}
                   <div style={{ padding: "18px 22px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
                       <Car size={11} style={{ color: "var(--color-text-tertiary)" }} />
                       <SectionLabel>Vehicle make {filters.carMakes.length > 0 && `(${filters.carMakes.length})`}</SectionLabel>
                     </div>
@@ -312,50 +274,6 @@ export default function ReservationsPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* ── Duration + Location ── */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-                  {/* Duration */}
-                  <div style={{ padding: "18px 22px", borderRight: "1px solid var(--color-border)" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-                      <Clock size={11} style={{ color: "var(--color-text-tertiary)" }} />
-                      <SectionLabel>Trip duration</SectionLabel>
-                    </div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                      {DURATION_PRESETS.map(p => {
-                        const cnt = reservations.filter(r => { const days = getDays(r); return days >= p.min && days <= p.max; }).length;
-                        return (
-                          <PillBtn key={p.key} active={filters.durationPreset === p.key} onClick={() => setF("durationPreset", filters.durationPreset === p.key ? "" : p.key)}>
-                            {p.label}
-                            <span style={{ fontSize: 10, opacity: 0.7 }}>{cnt}</span>
-                          </PillBtn>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Location */}
-                  <div style={{ padding: "18px 22px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-                      <MapPin size={11} style={{ color: "var(--color-text-tertiary)" }} />
-                      <SectionLabel>Location (pickup or dropoff)</SectionLabel>
-                    </div>
-                    <div style={{ position: "relative" }}>
-                      <MapPin size={12} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "var(--color-text-tertiary)", pointerEvents: "none" }} />
-                      <input type="text" value={filters.location} onChange={e => setF("location", e.target.value)} placeholder="e.g. Johannesburg, Cape Town…" style={{ ...inputStyle, width: "100%", paddingLeft: 28 }} />
-                    </div>
-                    {/* Common city shortcuts */}
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 8 }}>
-                      {["Johannesburg", "Cape Town", "Durban", "Pretoria"].map(city => (
-                        <button key={city} onClick={() => setF("location", filters.location === city ? "" : city)}
-                          style={{ height: 24, padding: "0 9px", borderRadius: 99, fontSize: 11, cursor: "pointer", transition: "all 100ms", background: filters.location === city ? "var(--color-accent-muted)" : "var(--color-surface-3)", border: `1px solid ${filters.location === city ? "var(--color-accent-border)" : "var(--color-border)"}`, color: filters.location === city ? "var(--color-accent-bright)" : "var(--color-text-tertiary)" }}>
-                          {city}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
                 {/* ── Footer stats ── */}
                 <div style={{ padding: "12px 22px", background: "var(--color-surface-2)", borderTop: "1px solid var(--color-border)", display: "flex", gap: 28, alignItems: "center" }}>
                   {[

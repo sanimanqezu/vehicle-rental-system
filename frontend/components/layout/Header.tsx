@@ -53,6 +53,9 @@ export function Header({ title, subtitle, actions }: HeaderProps) {
     <header
       className="flex items-center justify-between flex-shrink-0"
       style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 20,
         height: 60,
         padding: "0 32px",
         borderBottom: "1px solid var(--color-border)",
