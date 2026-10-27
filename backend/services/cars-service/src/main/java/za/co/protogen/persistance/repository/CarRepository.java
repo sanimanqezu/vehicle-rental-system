@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import za.co.protogen.persistance.entity.Car;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car, Long> {
+public interface CarRepository extends JpaRepository<Car, String> {
 
     List<Car> findByMake(String make);
 

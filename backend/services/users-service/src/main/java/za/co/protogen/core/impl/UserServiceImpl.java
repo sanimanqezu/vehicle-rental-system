@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeUser(Long id) {
         if (!userRepository.existsById(id)) {
-            System.out.println("User not found");
+            throw new IllegalStateException("User not found");
         }
         userRepository.deleteById(id);
     }
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public List<User> searchUsers(Long id, String firstName, String lastName, LocalDate dateOfBirth, String rsaId) {
         List<User> users = new ArrayList<>();
         if (id != null) {
-            users.add(userRepository.findById(id).get());
+            userRepository.findById(id).ifPresent(users::add);
         }
         if (firstName != null && !firstName.isEmpty()) {
             users.addAll(userRepository.findByFirstName(firstName));
@@ -81,7 +81,10 @@ public class UserServiceImpl implements UserService {
             users.addAll(userRepository.findByDateOfBirth(dateOfBirth));
         }
         if (rsaId != null && !rsaId.isEmpty()) {
-            users.add(userRepository.findByRsaId(rsaId));
+            User byRsaId = userRepository.findByRsaId(rsaId);
+            if (byRsaId != null) {
+                users.add(byRsaId);
+            }
         }
         return users;
     }

@@ -32,7 +32,7 @@ public class CarsServiceImpl implements CarsService {
 
     @Override
     public Car getCarById(String vin) {
-        Optional<Car> car = carRepository.findById(Long.valueOf(vin));
+        Optional<Car> car = carRepository.findById(vin);
         return car.orElseThrow(() -> new RuntimeException("Car not found with VIN: " + vin));
     }
 
@@ -97,6 +97,7 @@ public class CarsServiceImpl implements CarsService {
             if (updatedCar.getFeatures() != null && !updatedCar.getFeatures().isEmpty()) {
                 existingCar.setFeatures(updatedCar.getFeatures());
             }
+            carRepository.save(existingCar);
         }
     }
 
